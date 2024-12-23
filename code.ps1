@@ -3,7 +3,10 @@ $FileUrl = "https://raw.githubusercontent.com/nguyenlinhvuong249/tools_setup_ida
 
 # Tải nội dung file và chuyển đến cmd.exe để thực thi
 Write-Host "Đang tải và thực thi file .bat từ URL..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri $FileUrl -UseBasicParsing | Select-Object -ExpandProperty Content | cmd.exe /c
+$BatContent = Invoke-WebRequest -Uri $FileUrl -UseBasicParsing | Select-Object -ExpandProperty Content
 
-# Đóng PowerShell ngay lập tức sau khi chuyển lệnh đến cmd
+# Sử dụng Start-Process để thực thi nội dung bằng cmd.exe
+Start-Process -FilePath "cmd.exe" -ArgumentList "/c", $BatContent -NoNewWindow
+
+# Đóng cửa sổ PowerShell ngay sau khi chuyển lệnh
 exit
