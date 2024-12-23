@@ -9,4 +9,3 @@ Write-Host "Hoàn tất thực thi." -ForegroundColor Green
 
 # Đóng cửa sổ PowerShell
 Write-Host "Đóng cửa sổ PowerShell..." -ForegroundColor Yellow
-exit
