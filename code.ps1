@@ -24,6 +24,3 @@ if (Test-Path $LocalFile) {
 } else {
     Write-Host "Lỗi: Không tải được file. Vui lòng kiểm tra URL hoặc kết nối mạng." -ForegroundColor Red
 }
-
-# Dừng màn hình để xem kết quả
-Read-Host -Prompt "Nhấn Enter để thoát"
