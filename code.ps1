@@ -1,3 +1,4 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 # URL của hai file APK trên Google Drive
 $ApkUrl1 = "https://drive.google.com/uc?export=download&id=10s2VYn7oRKgEaUT4tcf829lap7bGjGkK"  # Thay <file_id_1> bằng ID file APK thứ nhất
 $ApkUrl2 = "https://drive.google.com/uc?export=download&id=1Nbe9pNUqV2hPwovQTJ6G9G8VoRzZqJEB"  # Thay <file_id_2> bằng ID file APK thứ hai
