@@ -1,28 +1,45 @@
-# URL của file .bat trên GitHub
-$FileUrl = "https://raw.githubusercontent.com/nguyenlinhvuong249/tools_setup_idata_share/refs/heads/main/idata%20setup%20share.bat"
+# URL của hai file APK trên Google Drive
+$ApkUrl1 = "https://drive.google.com/uc?export=download&id=10s2VYn7oRKgEaUT4tcf829lap7bGjGkK"  # Thay <file_id_1> bằng ID file APK thứ nhất
+$ApkUrl2 = "https://drive.google.com/uc?export=download&id=1Nbe9pNUqV2hPwovQTJ6G9G8VoRzZqJEB"  # Thay <file_id_2> bằng ID file APK thứ hai
 
-# Tên file tạm thời
-$TempFile = "$env:TEMP\idata_setup_share.bat"
+# URL của file BAT trên GitHub
+$BatUrl = "https://raw.githubusercontent.com/nguyenlinhvuong249/tools_setup_idata_share/refs/heads/main/idata%20setup%20share.bat"
 
-# Tải file về máy
-Write-Host "Đang tải file .bat từ URL..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri $FileUrl -OutFile $TempFile -UseBasicParsing
+# Thư mục tạm thời
+$TempFolder = $env:TEMP
 
-# Kiểm tra xem file đã được tải thành công chưa
-if (Test-Path $TempFile) {
-    Write-Host "File đã được tải thành công: $TempFile" -ForegroundColor Green
+# Đường dẫn file APK và BAT tạm thời
+$ApkFile1 = Join-Path -Path $TempFolder -ChildPath "JTSprinter1.1.125.apk"
+$ApkFile2 = Join-Path -Path $TempFolder -ChildPath "JTSprinter1.1.151.apk"
+$BatFile = Join-Path -Path $TempFolder -ChildPath "idata_setup_share.bat"
 
-    # Thực thi file .bat bằng Start-Process
-    Write-Host "Đang thực thi file .bat..." -ForegroundColor Cyan
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", $TempFile -NoNewWindow -Wait
+# Tải file APK thứ nhất từ Google Drive
+Write-Host "Đang tải file APK thứ nhất từ Google Drive..." -ForegroundColor Yellow
+Invoke-WebRequest -Uri $ApkUrl1 -OutFile $ApkFile1 -UseBasicParsing
 
-    # Xóa file sau khi thực thi
-    Write-Host "Xóa file tạm sau khi thực thi..." -ForegroundColor Yellow
-    Remove-Item -Path $TempFile -Force
+# Tải file APK thứ hai từ Google Drive
+Write-Host "Đang tải file APK thứ hai từ Google Drive..." -ForegroundColor Yellow
+Invoke-WebRequest -Uri $ApkUrl2 -OutFile $ApkFile2 -UseBasicParsing
 
-    Write-Host "Hoàn tất. File tạm đã được xóa." -ForegroundColor Green
+# Tải file BAT từ GitHub
+Write-Host "Đang tải file BAT từ GitHub..." -ForegroundColor Yellow
+Invoke-WebRequest -Uri $BatUrl -OutFile $BatFile -UseBasicParsing
+
+# Kiểm tra nếu cả ba file đã tải thành công
+if ((Test-Path $ApkFile1) -and (Test-Path $ApkFile2) -and (Test-Path $BatFile)) {
+    Write-Host "Cả ba file đã được tải thành công." -ForegroundColor Green
+
+    # Thực thi file BAT và truyền đường dẫn của hai file APK vào
+    Write-Host "Đang thực thi file BAT và truyền đường dẫn của hai file APK..." -ForegroundColor Cyan
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "$BatFile $ApkFile1 $ApkFile2" -NoNewWindow -Wait
+
+    # Xóa các file tạm sau khi thực thi
+    Write-Host "Đang xóa các file tạm..." -ForegroundColor Yellow
+    Remove-Item -Path $ApkFile1, $ApkFile2, $BatFile -Force
+
+    Write-Host "Hoàn tất. Các file tạm đã được xóa." -ForegroundColor Green
 } else {
-    Write-Host "Lỗi: Không tải được file. Vui lòng kiểm tra URL hoặc kết nối mạng." -ForegroundColor Red
+    Write-Host "Lỗi: Không thể tải một hoặc nhiều file. Vui lòng kiểm tra URL hoặc kết nối mạng." -ForegroundColor Red
 }
 
 # Đóng cửa sổ PowerShell
