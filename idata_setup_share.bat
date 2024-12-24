@@ -6,3 +6,4 @@ set "duong_dan_app_moi=%1"
 echo Đường dẫn file APK: %duong_dan_app_moi%
 
 :: Thực hiện các hành động khác với biến duong_dan_app_moi
+pause
